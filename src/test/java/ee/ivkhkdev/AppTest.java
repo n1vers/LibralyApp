@@ -1,36 +1,81 @@
 package ee.ivkhkdev;
 
-import org.junit.jupiter.api.Test;
+import ee.ivkhkdev.interfaces.Input;
+import ee.ivkhkdev.model.Customer;
+import org.junit.jupiter.api.*;
+import org.mockito.Mockito;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.Scanner;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-public class AppTest {
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
-    @Test
-    public void testRunExit() {
-        // Подготавливаем ввод, имитируя ввод '0' для выхода
-        String input = "0";
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
 
-        // Запускаем метод run() и проверяем, что он не выбрасывает исключение
-        App app = new App(new Scanner(System.in));
-        assertDoesNotThrow(app::run);
+public class AppTest{
+    private Input inputMock; // Мок объекта Input
+    private ByteArrayOutputStream outContent; // Для перехвата вывода консоли
+    private final PrintStream originalOut = System.out; // Оригинальный System.out
+
+    @BeforeEach
+    public void setUp() {
+        // Мокируем Input
+        inputMock = Mockito.mock(Input.class);
+
+        // Перехватываем вывод в консоль
+        outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+    }
+
+    @AfterEach
+    public void tearDown() {
+
+        System.setOut(originalOut);
     }
 
     @Test
-    public void testRunInvalidTask() {
-        // Подготавливаем ввод: сначала 1 (некорректный ввод), затем 0 (выход)
-        String input = "1\n0";
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
+    public void testExitProgram() {
+        // Настраиваем поведение nextInt для завершения программы
+        when(inputMock.nextInt()).thenReturn(0);
 
-        // Запускаем метод run() и проверяем, что он не выбрасывает исключение
-        App app = new App(new Scanner(System.in));
-        assertDoesNotThrow(app::run);
+        // Создаем объект App с мокированным input
+        App app = new App(inputMock);
+
+        // Запускаем метод run
+        app.run();
+
+
+        // Проверяем, что фактический вывод совпадает с ожидаемым
+       assertTrue(outContent.toString().contains("Выход из программы"));
+    }
+
+    @Test
+    public void testInvalidTaskNumber() {
+        // Настраиваем поведение nextInt для неверного ввода и последующего завершения программы
+        when(inputMock.nextInt()).thenReturn(5, 0); // Сначала неверный ввод, затем завершение
+
+        // Создаем объект App с мокированным input
+        App app = new App(inputMock);
+
+        // Запускаем метод run
+        app.run();
+
+        // Проверяем, что фактический вывод совпадает с ожидаемым
+        assertTrue(outContent.toString().contains("Выберите номер из списка задач!") && outContent.toString().contains("До свидания!"));
+    }
+
+    @Test
+    public void TestAddCustomer(){
+        when(inputMock.nextInt()).thenReturn(1,0);
+
+        App app = new App(inputMock);
+
+        Customer expected=new Customer("Ivan","Ivanov","54345534");
+
+        app.run();
+
+        assertTrue(App.customers[0].getFirstname().equals("Ivan")&& outContent.toString().contains("До свидания!"));
     }
 }
+
