@@ -4,19 +4,19 @@ import java.util.UUID;
 
 public class Customer {
     private UUID id;
-    private String Firstname;
-    private String Lastname;
+    private String firstName;
+    private String lastName;
     private String phone;
 
     public Customer() {
         this.id = UUID.randomUUID();
     }
 
-    public Customer( String firstname, String lastname, String phone) {
+    public Customer(String firstName, String lastName, String phone) {
         this.id = UUID.randomUUID();
-        Firstname = firstname;
-        Lastname = lastname;
         this.phone = phone;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public UUID getId() {
@@ -27,20 +27,20 @@ public class Customer {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return Firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        Firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return Lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        Lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPhone() {
@@ -57,14 +57,14 @@ public class Customer {
         if (o == null || getClass() != o.getClass()) return false;
 
         Customer customer = (Customer) o;
-        return id.equals(customer.id) && Firstname.equals(customer.Firstname) && Lastname.equals(customer.Lastname) && phone.equals(customer.phone);
+        return id.equals(customer.id) && firstName.equals(customer.firstName) && lastName.equals(customer.lastName) && phone.equals(customer.phone);
     }
 
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + Firstname.hashCode();
-        result = 31 * result + Lastname.hashCode();
+        result = 31 * result + firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
         result = 31 * result + phone.hashCode();
         return result;
     }
@@ -73,8 +73,8 @@ public class Customer {
     public String toString() {
         return "Customer{" +
                 "id=" + id +
-                ", Firstname='" + Firstname + '\'' +
-                ", Lastname='" + Lastname + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
     }
