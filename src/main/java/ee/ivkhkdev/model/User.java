@@ -2,17 +2,17 @@ package ee.ivkhkdev.model;
 
 import java.util.UUID;
 
-public class Customer {
+public class User {
     private UUID id;
     private String firstName;
     private String lastName;
     private String phone;
 
-    public Customer() {
+    public User() {
         this.id = UUID.randomUUID();
     }
 
-    public Customer(String firstName, String lastName, String phone) {
+    public User(String firstName, String lastName, String phone) {
         this.id = UUID.randomUUID();
         this.phone = phone;
         this.firstName = firstName;
@@ -56,8 +56,8 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Customer customer = (Customer) o;
-        return id.equals(customer.id) && firstName.equals(customer.firstName) && lastName.equals(customer.lastName) && phone.equals(customer.phone);
+        User user = (User) o;
+        return id.equals(user.id) && firstName.equals(user.firstName) && lastName.equals(user.lastName) && phone.equals(user.phone);
     }
 
     @Override

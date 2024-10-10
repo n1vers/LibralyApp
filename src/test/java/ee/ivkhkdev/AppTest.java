@@ -1,6 +1,6 @@
 package ee.ivkhkdev;
 import ee.ivkhkdev.interfaces.Input;
-import ee.ivkhkdev.model.Customer;
+import ee.ivkhkdev.model.User;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 
@@ -85,9 +85,9 @@ public class AppTest {
         // Запускаем метод run
         app.run();
 
-        Customer expected = new Customer("Ivan", "Ivanov", "56565656");
+        User expected = new User("Ivan", "Ivanov", "56565656");
         // Проверяем, что фактический вывод совпадает с ожидаемым
-        assertTrue(App.customers[0].getFirstName().equals("Ivan") && outContent.toString().contains("До свидания!"));
+        assertTrue(App.users[0].getFirstName().equals("Ivan") && outContent.toString().contains("До свидания!"));
     }
 
 }

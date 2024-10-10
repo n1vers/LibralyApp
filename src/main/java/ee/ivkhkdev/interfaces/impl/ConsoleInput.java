@@ -1,4 +1,4 @@
-package ee.ivkhkdev.tools;
+package ee.ivkhkdev.interfaces.impl;
 
 import ee.ivkhkdev.interfaces.Input;
 
