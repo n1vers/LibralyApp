@@ -1,15 +1,25 @@
 package ee.ivkhkdev;
 
+import ee.ivkhkdev.helpers.AppInputHelper;
 import ee.ivkhkdev.interfaces.Input;
+import ee.ivkhkdev.model.Book;
 import ee.ivkhkdev.model.User;
 import ee.ivkhkdev.services.BookService;
 import ee.ivkhkdev.services.UserService;
+import ee.ivkhkdev.storages.Storage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
     private Input input;
-    public static User[] books = new User[100];
-    private UserService userService = new UserService();
-    private BookService bookService = new BookService();
+    public  List<User> users = new ArrayList<>();
+    public  List<Book> books = new ArrayList<>();
+    private Storage<User> storageUser = new Storage<>("users");
+    private AppInputHelper appInputHelper = new AppInputHelper(input);
+    private UserService userService = new UserService(appInputHelper,storageUser);
+    private Storage<Book> storageBook = new Storage<>("books");
+    private BookService bookService = new BookService(appInputHelper, storageBook);
     // Теперь в конструктор передается Input вместо Scanner
     public App(Input input) {
         this.input = input;
@@ -33,19 +43,19 @@ public class App {
                     break;
                 case 1:
                     System.out.println("1. Добавить пользователя");
-                    if(userService.add(input)){
+                    if(userService.add(users)){
                         System.out.println("Пользователь добавлен");
                     }else{
                         System.out.println("Пользователя добавить не удалось");
                     };
                     break;
                 case 2:
-                    if(userService.printList()){
+                    if(userService.printList(users)){
                         System.out.println("-----------Конец списка---------");
                     }
                 case 3:
                     System.out.println("3. Добавить книгу");
-                    if(bookService.add(input)){
+                    if(bookService.add(books)){
                         System.out.println("Книга добавлена");
                     }else {
                         System.out.println("Книгу добвить не удалось");

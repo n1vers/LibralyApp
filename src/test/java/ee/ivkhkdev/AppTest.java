@@ -1,11 +1,18 @@
 package ee.ivkhkdev;
+import ee.ivkhkdev.helpers.AppInputHelper;
 import ee.ivkhkdev.interfaces.Input;
+import ee.ivkhkdev.model.Author;
+import ee.ivkhkdev.model.Book;
 import ee.ivkhkdev.model.User;
+import ee.ivkhkdev.services.BookService;
+import ee.ivkhkdev.storages.Storage;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -64,7 +71,7 @@ public class AppTest {
         app.run();
         User expected = new User("Ivan", "Ivanov", "56565656");
         // Проверяем, что фактический вывод совпадает с ожидаемым
-        assertTrue(App.books[0].getFirstName().equals("Ivan"));
+        assertTrue(users.get(0).getFirstName().equals("Ivan"));
     }
     @Test
     void testPrintListUsers() {
@@ -79,5 +86,17 @@ public class AppTest {
         String expected="-----------Конец списка---------";
         assertTrue(contentString.contains(expected));
     }
+    @Test
+    public void testAddBook() {
+        AppInputHelper appInputHelperMock = Mockito.mock(AppInputHelper.class);
+        Book bookMock = Mockito.mock(Book.class);
+        List<Book> booksMock =Mockito.mock(ArrayList.class);
+        when(appInputHelperMock.createbook(inputMock)).thenReturn(bookMock);
+        Storage<Book> storageMock = Mockito.mock(Storage.class);
+        BookService bookServiceMock = new BookService(appInputHelperMock,storageMock);
+        boolean result = bookServiceMock.add(inputMock);
+        verify(storageMock,times(1)).save(booksMock);
+        assertTrue(result);
 
+    }
 }
