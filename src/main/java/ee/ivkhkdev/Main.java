@@ -8,8 +8,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Input scanner = new ConsoleInput(new Scanner(System.in));
-        App app = new App(scanner);
+        App app = new App();
         app.run();
     }
 }

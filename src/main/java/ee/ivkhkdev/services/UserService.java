@@ -1,40 +1,45 @@
 package ee.ivkhkdev.services;
 
-import ee.ivkhkdev.App;
-import ee.ivkhkdev.interfaces.Input;
+
+import ee.ivkhkdev.helpers.AppHelper;
 import ee.ivkhkdev.model.User;
-import ee.ivkhkdev.helpers.AppInputHelper;
-import ee.ivkhkdev.storages.Storage;
+import ee.ivkhkdev.repositories.Repository;
+
 
 import java.util.List;
 
-public class UserService {
-    private final Storage<User> storage;
-    private AppInputHelper appInputHelper ;
+public class UserService implements Service {
+    private final Repository<User> repository;
+    private final List<User> users;
+    private AppHelper appHelperUser;
 
-    public UserService(AppInputHelper appInputHelper,Storage<User> storage) {
-        this.appInputHelper = appInputHelper;
-        this.storage=storage;
+    public UserService(List<User>users, AppHelper appHelperUser, Repository<User> repository) {
+        this.users=users;
+        this.appHelperUser = appHelperUser;
+        this.repository = repository;
     }
 
-    public boolean add( List<User> users) {
-        User user = appInputHelper.createUser();
+    public boolean add() {
+        User user = (User) appHelperUser.create();
         if(user == null ) return false;
         for (int i = 0; i <= users.size(); i++){
-            if(i == 0){
+            if(i == 0 ){
                 users.add(user);
-                storage.save(users);
+                repository.save(user);
                 break;
-            }else if(users.get(i) == null){
+            }else if(users.get(i) == null) {
                 users.add(user);
-                storage.save(users);
+                repository.save(user);
                 break;
             }
         }
         return true;
     }
 
-    public boolean printList(List<User> users) {
-        return appInputHelper.printListUser(users);
+    @Override
+    public boolean printList() {
+        return appHelperUser.printList();
     }
+
+
 }

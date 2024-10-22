@@ -3,45 +3,54 @@ package ee.ivkhkdev.storages;
 import ee.ivkhkdev.App;
 import ee.ivkhkdev.model.Book;
 import ee.ivkhkdev.model.User;
+import ee.ivkhkdev.repositories.Repository;
 
 import java.io.*;
 import java.util.List;
 
-public class Storage<T> {
+public class Storage<T> implements Repository<T> {
 
     private final String fileName;
 
     public Storage(String fileName) {
-        this.fileName=fileName;
+        this.fileName = fileName;
     }
 
-    public void save(List<T> entities){
+    @Override
+    public void save(T entity){
+        List<T> entities=this.load();
+        entities.add(entity);
         FileOutputStream fileOutputStream;
         ObjectOutputStream objectOutputStream;
         try {
-            fileOutputStream=new FileOutputStream(fileName);
+            fileOutputStream = new FileOutputStream(fileName);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(entities);
+            objectOutputStream.writeObject(entity);
             objectOutputStream.flush();
+
         } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден");
+            System.out.println("Не найден файл");
         } catch (IOException e) {
             System.out.println("Ошибка ввода");
         }
     }
+
+
+
+    @Override
     public List<T> load(){
         FileInputStream fileInputStream;
         ObjectInputStream objectInputStream;
         try {
             fileInputStream = new FileInputStream(fileName);
             objectInputStream = new ObjectInputStream(fileInputStream);
-            return  (List<T>) objectInputStream.readObject();
+            return (List<T>) objectInputStream.readObject();
         } catch (FileNotFoundException e) {
-            System.out.println("нет такого файла");
+            System.out.println("Нет такого файла");
         } catch (IOException e) {
             System.out.println("Ошибка вывода");
         } catch (ClassNotFoundException e) {
-            System.out.println("Не найден класс");
+            System.out.println("Не найден класс ");
         }
         return null;
     }
