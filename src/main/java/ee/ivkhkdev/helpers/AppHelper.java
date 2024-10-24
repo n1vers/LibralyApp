@@ -1,7 +1,9 @@
 package ee.ivkhkdev.helpers;
 
+import java.util.List;
+
 public interface AppHelper<T> {
     T create();
-    boolean printList();
+    boolean printList(List<T> listClazz);
 
 }

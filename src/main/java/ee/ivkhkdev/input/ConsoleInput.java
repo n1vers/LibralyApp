@@ -1,6 +1,4 @@
-package ee.ivkhkdev.interfaces.impl;
-
-import ee.ivkhkdev.interfaces.Input;
+package ee.ivkhkdev.input;
 
 import java.util.Scanner;
 

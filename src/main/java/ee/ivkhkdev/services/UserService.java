@@ -13,7 +13,7 @@ public class UserService implements Service {
     private final List<User> users;
     private AppHelper appHelperUser;
 
-    public UserService(List<User>users, AppHelper appHelperUser, Repository<User> repository) {
+    public UserService(List<User>users, AppHelper<User> appHelperUser, Repository<User> repository) {
         this.users=users;
         this.appHelperUser = appHelperUser;
         this.repository = repository;
@@ -37,8 +37,13 @@ public class UserService implements Service {
     }
 
     @Override
-    public boolean printList() {
-        return appHelperUser.printList();
+    public boolean print() {
+        return appHelperUser.printList(users);
+    }
+
+    @Override
+    public List list() {
+        return users;
     }
 
 

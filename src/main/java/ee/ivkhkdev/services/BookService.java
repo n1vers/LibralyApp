@@ -12,7 +12,7 @@ public class BookService implements Service {
 
     private Repository<Book> repository;
     private AppHelper appHelperBook;
-    public BookService(List<Book>books,AppHelper appHelperBook, Repository<Book> repository) {
+    public BookService(List<Book>books,AppHelper<Book> appHelperBook, Repository<Book> repository) {
         this.books=books;
         this.appHelperBook = appHelperBook;
         this.repository = repository;
@@ -36,8 +36,13 @@ public class BookService implements Service {
     }
 
     @Override
-    public boolean printList() {
+    public boolean print() {
 
         return false;
+    }
+
+    @Override
+    public List list() {
+        return books;
     }
 }

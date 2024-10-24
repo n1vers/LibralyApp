@@ -11,7 +11,7 @@ public class AuthorService implements Service {
 
     private Repository<Author> repository;
     private AppHelper appHelperAuthor;
-    public AuthorService(List<Author> authors,AppHelper appHelperAuthor, Repository<Author> repository) {
+    public AuthorService(List<Author> authors,AppHelper<Author> appHelperAuthor, Repository<Author> repository) {
         this.authors=authors;
         this.appHelperAuthor = appHelperAuthor;
         this.repository = repository;
@@ -40,11 +40,13 @@ public class AuthorService implements Service {
     }
 
     @Override
-    public boolean printList() {
-        return appHelperAuthor.printList();
+    public boolean print() {
+        return appHelperAuthor.printList(authors);
     }
 
-    public List<Author> getAuthors() {
+
+    @Override
+    public List<Author> list() {
         return authors;
     }
 }

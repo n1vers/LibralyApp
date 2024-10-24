@@ -1,6 +1,6 @@
 package ee.ivkhkdev.helpers;
 
-import ee.ivkhkdev.interfaces.Input;
+import ee.ivkhkdev.input.Input;
 import ee.ivkhkdev.model.User;
 
 import java.util.List;
@@ -8,10 +8,13 @@ import java.util.List;
 public class AppHelperUser implements AppHelper<User> {
     private final Input input;
 
+
     public AppHelperUser(Input input) {
-        this.input=input;
+        this.input = input;
+
     }
-   @Override
+
+    @Override
     public User create() {
         try {
             User user = new User();
@@ -28,7 +31,21 @@ public class AppHelperUser implements AppHelper<User> {
     }
 
     @Override
-    public boolean printList(){
-      return false;
+    public boolean printList(List<User>users) {
+        try {
+            if(users.size() == 0) return false;
+            for(int i = 0; i < users.size(); i++){
+                System.out.printf("%d. %s %s. %s%n",
+                        i+1,
+                        users.get(i).getFirstName(),
+                        users.get(i).getLastName(),
+                        users.get(i).getPhone()
+                );
+            }
+            return true;
+        }catch (Exception e){
+            System.out.println("Error: "+e.toString());
+            return false;
+        }
     }
 }
