@@ -1,17 +1,12 @@
 package ee.ivkhkdev.services;
 
 import ee.ivkhkdev.interfaces.AppHelper;
-import ee.ivkhkdev.helpers.AuthorAppHelper;
-import ee.ivkhkdev.interfaces.Service;
-import ee.ivkhkdev.model.Author;
 import ee.ivkhkdev.interfaces.Repository;
-import ee.ivkhkdev.repositories.Storage;
-import org.junit.jupiter.api.AfterEach;
+import ee.ivkhkdev.model.Author;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,73 +14,90 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
-class AuthorServiceTest {
-    List<Author> authors;
-    AppHelper<Author> appHelperAuthorMock;
-    Repository<Author> repositoryMock;
-    Service<Author> authorService;
+public class AuthorServiceTest {
+
+    private AuthorService authorService;
+    private Repository<Author> mockRepository;
+    private AppHelper<Author> mockAppHelperAuthor;
+
     @BeforeEach
     void setUp() {
-        authors = new ArrayList<>();
-        appHelperAuthorMock = Mockito.mock(AuthorAppHelper.class);
-        repositoryMock = Mockito.mock(Storage.class);
+        // Создаем моки для зависимостей
+        mockRepository = Mockito.mock(Repository.class);
+        mockAppHelperAuthor = Mockito.mock(AppHelper.class);
 
-        authorService = new AuthorService(appHelperAuthorMock,repositoryMock);
-    }
-    @AfterEach
-    void tearDown() {
+        // Инициализируем AuthorService с моками
+        authorService = new AuthorService(mockAppHelperAuthor, mockRepository);
     }
 
     @Test
-    void testAdd_SuccessfulAdd() {
-        Author author = new Author("Lev","Tolstoy");
-        authors = new ArrayList<>();
-        authors.add(author);
-        Author mockAuthor = new Author("Ivan","Turgenev");
+    void testAddAuthorSuccess() {
+        // Подготовка: создать автора и настроить заглушки
+        Author mockAuthor = new Author(); // Предполагается, что у класса Author есть конструктор по умолчанию
+        when(mockAppHelperAuthor.create()).thenReturn(mockAuthor);
 
-        when(appHelperAuthorMock.create()).thenReturn(mockAuthor);
+        // Выполняем метод add
         boolean result = authorService.add();
+
+        // Проверка
         assertTrue(result);
-
-        assertTrue(authors.get(1).getFirstName().equals("Ivan"));
-
-        verify(repositoryMock,times(1)).save(any(Author.class));
-
-    }
-    @Test
-    void testAdd_AddExistingAuthor(){
-        Author existingAuthor = new Author();
-        authors.add(existingAuthor);
-        Author newAuthor = new Author();
-        when(appHelperAuthorMock.create()).thenReturn(newAuthor);
-        boolean result = authorService.add();
-        assertTrue(result);
-        assertEquals(2,authors.size());
-        assertEquals(newAuthor, authors.get(1));
-        verify(repositoryMock,times(1)).save(newAuthor);
+        verify(mockRepository, times(1)).save(mockAuthor); // Убедиться, что метод save был вызван один раз
     }
 
     @Test
-    void restAdd_CreateReturnsNull(){
-        authors = new ArrayList<>();
-        when(appHelperAuthorMock.create()).thenReturn(null);
+    void testAddAuthorFailureWhenAuthorIsNull() {
+        // Настроить заглушку, чтобы create возвращал null
+        when(mockAppHelperAuthor.create()).thenReturn(null);
+
+        // Выполняем метод add
         boolean result = authorService.add();
+
+        // Проверка
         assertFalse(result);
-        assertTrue(authors.isEmpty());
-        verify(repositoryMock,never()).save((any()));
-    }
-    @Test
-    public void testPrint() {
-        when(appHelperAuthorMock.printList(authors)).thenReturn(true);
-        boolean result = authorService.print();
-        assertTrue(result);
-        verify(appHelperAuthorMock, times(1)).printList(authors);
+        verify(mockRepository, never()).save(any()); // Убедиться, что метод save не был вызван
     }
 
+    @Test
+    void testAddAuthorExceptionHandling() {
+        // Подготовка: создать автора и выбросить исключение при вызове save
+        Author mockAuthor = new Author();
+        when(mockAppHelperAuthor.create()).thenReturn(mockAuthor);
+        doThrow(new RuntimeException("Save error")).when(mockRepository).save(mockAuthor);
+
+        // Выполняем метод add
+        boolean result = authorService.add();
+
+        // Проверка
+        assertFalse(result); // Ожидаем, что метод вернет false при возникновении исключения
+    }
+
+    @Test
+    void testPrint() {
+        // Подготовка: создать список авторов и настроить заглушки
+        List<Author> mockAuthorList = List.of(new Author(), new Author());
+        when(mockRepository.load()).thenReturn(mockAuthorList);
+        when(mockAppHelperAuthor.printList(mockAuthorList)).thenReturn(true);
+
+        // Выполняем метод print
+        boolean result = authorService.print();
+
+        // Проверка
+        assertTrue(result);
+        verify(mockRepository, times(1)).load(); // Убедиться, что метод load был вызван один раз
+        verify(mockAppHelperAuthor, times(1)).printList(mockAuthorList); // Убедиться, что метод printList был вызван один раз
+    }
 
     @Test
     void testList() {
+        // Подготовка: создать список авторов и настроить заглушки
+        List<Author> mockAuthorList = List.of(new Author(), new Author());
+        when(mockRepository.load()).thenReturn(mockAuthorList);
+
+        // Выполняем метод list
         List<Author> result = authorService.list();
-        assertSame(authors, result);
+
+        // Проверка
+        assertEquals(mockAuthorList, result);
+        verify(mockRepository, times(1)).load(); // Убедиться, что метод load был вызван один раз
     }
 }

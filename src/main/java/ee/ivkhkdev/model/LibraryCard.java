@@ -5,18 +5,18 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
-public class LiblaryCard implements Serializable {
+public class LibraryCard implements Serializable {
     private UUID id;
     private Book book ;
     private User user;
     private LocalDate borrowDate;
     private LocalDate returnDate;
 
-    public LiblaryCard() {
+    public LibraryCard() {
         this.id = UUID.randomUUID();
     }
 
-    public LiblaryCard(UUID id, Book book, User user, LocalDate borrowDate, LocalDate returnDate) {
+    public LibraryCard(UUID id, Book book, User user, LocalDate borrowDate, LocalDate returnDate) {
         this.id = UUID.randomUUID();
         this.book = book;
         this.user = user;
@@ -68,7 +68,7 @@ public class LiblaryCard implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LiblaryCard that = (LiblaryCard) o;
+        LibraryCard that = (LibraryCard) o;
         return Objects.equals(id, that.id) && Objects.equals(book, that.book) && Objects.equals(user, that.user) && Objects.equals(borrowDate, that.borrowDate) && Objects.equals(returnDate, that.returnDate);
     }
 

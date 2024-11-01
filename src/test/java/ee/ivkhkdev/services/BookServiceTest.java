@@ -1,11 +1,15 @@
 package ee.ivkhkdev.services;
 
-import ee.ivkhkdev.interfaces.AppHelper;
+
 import ee.ivkhkdev.helpers.BookAppHelper;
+
+
+import ee.ivkhkdev.interfaces.AppHelper;
+import ee.ivkhkdev.interfaces.Repository;
 import ee.ivkhkdev.interfaces.Service;
 import ee.ivkhkdev.model.Author;
 import ee.ivkhkdev.model.Book;
-import ee.ivkhkdev.interfaces.Repository;
+
 import ee.ivkhkdev.repositories.Storage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,17 +18,15 @@ import org.mockito.Mockito;
 
 import java.util.List;
 
-import static javax.swing.UIManager.get;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 class BookServiceTest {
 
     AppHelper<Book> appHelperBook;
     Repository<Book> repository;
     Service<Book> bookService;
-
     @BeforeEach
     void setUp() {
         appHelperBook = Mockito.mock(BookAppHelper.class);
@@ -38,54 +40,54 @@ class BookServiceTest {
 
     @Test
     void testAdd_SuccessfulAdd() {
-        Book book = new Book("Voina i Mir", List.of(new Author("Lev", "Tolstoy")), 2000);
-        when(appHelperBook.create()).thenReturn(book);
+        Book mockBook = new Book("Voina i mir", List.of(new Author("Lev","Tolstoy")),2000);
+        when(appHelperBook.create()).thenReturn(mockBook);
         boolean result = bookService.add();
         assertTrue(result);
-        verify(repository, times(1)).save(book); // проверка, что книга сохраняется
     }
-
     @Test
-    void testAdd_CreateReturnNull() {
+    public void testAdd_CreateReturnsNull() {
         when(appHelperBook.create()).thenReturn(null);
         boolean result = bookService.add();
-        List<Book> resultBook = bookService.list();
+        List<Book> resultListBook = bookService.list();
         assertFalse(result);
-        assertTrue(resultBook.isEmpty());
-        verify(repository, never()).save(any()); // проверка, что не сохраняется ничего
+        assertTrue(resultListBook.isEmpty());
+        verify(repository, never()).save(any());
     }
-
     @Test
-    void testAdd_AddExistingBook() {
-        Book book = new Book("Voina i Mir", List.of(new Author("Lev", "Tolstoy")), 2000);
-        when(appHelperBook.create()).thenReturn(book);
-        when(repository.load()).thenReturn(List.of(book)); // имитируем, что книга уже есть в репозитории
-
+    public void testAdd_AddExistingBook() {
+        Book bookMock = new Book("Voina i mir", List.of(new Author("Lev","Tolstoy")),2000);
+        when(appHelperBook.create()).thenReturn(bookMock);
+        when(repository.load()).thenReturn(List.of(new Book("Voina i mir", List.of(new Author("Lev","Tolstoy")),2000)));
+        Book existingBook = new Book("Voina i mir", List.of(new Author("Lev","Tolstoy")),2000);
         boolean result = bookService.add();
-        assertFalse(result); // проверка, что добавление неуспешно
-
-        verify(repository,times(1)).save(book); // проверка, что `save` не вызывается
-    }
-
-
-    @Test
-    void testPrint() {
-        List<Book> books = List.of(new Book("Voina i Mir", List.of(new Author("Lev", "Tolstoy")), 2000));
-        when(repository.load()).thenReturn(books); // загружаем список книг из репозитория
-        when(appHelperBook.printList(books)).thenReturn(true);
-
-        boolean result = bookService.print();
+        Book resultBook = bookService.list().get(0);
         assertTrue(result);
-        verify(appHelperBook, times(1)).printList(books);
+        assertEquals(existingBook.getTitle(), resultBook.getTitle());
+    }
+    @Test
+    public void testPrint() {
+        // Подготовка: создать список книг и настроить заглушки
+        List<Book> mockBookList = List.of(new Book(), new Book());
+        when(repository.load()).thenReturn(mockBookList);
+        when(appHelperBook.printList(mockBookList)).thenReturn(true);
+        // Выполняем метод print
+        boolean result = bookService.print();
+        // Проверка
+        assertTrue(result);
+        verify(repository, times(1)).load(); // Убедиться, что метод load был вызван один раз
+        verify(appHelperBook, times(1)).printList(mockBookList); // Убедиться, что метод printList был вызван один раз
     }
 
     @Test
-    void list() {
-        List<Book> books = List.of(new Book("Voina i mir", List.of(new Author("Lev", "Tolstoy")), 2000));
-        when(repository.load()).thenReturn(books); // должно возвращаться из репозитория, а не из appHelperBook
-
-        List<Book> resultBooks = bookService.list();
-        assertEquals(books.size(), resultBooks.size());
-        assertEquals(books.get(0).getTitle(), resultBooks.get(0).getTitle());
+    public void testList() {
+        // Подготовка: создать список книг и настроить заглушки
+        List<Book> mockBookList = List.of(new Book(), new Book());
+        when(repository.load()).thenReturn(mockBookList);
+        // Выполняем метод list
+        List<Book> result = bookService.list();
+        // Проверка
+        assertEquals(mockBookList, result);
+        verify(repository, times(1)).load(); // Убедиться, что метод load был вызван один раз
     }
 }

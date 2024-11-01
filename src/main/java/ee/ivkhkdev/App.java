@@ -5,8 +5,10 @@ import ee.ivkhkdev.interfaces.Input;
 
 import ee.ivkhkdev.model.Author;
 import ee.ivkhkdev.model.Book;
+import ee.ivkhkdev.model.LibraryCard;
 import ee.ivkhkdev.model.User;
 import ee.ivkhkdev.interfaces.Service;
+
 
 
 public class App {
@@ -15,13 +17,14 @@ public class App {
     private Service<User> userService;
     private Service<Book> bookService;
     private Service<Author> authorService;
+    private Service<LibraryCard> libralyCardService;
 
-
-    public App(Input input,Service<Book> bookService,Service<User> userService,Service<Author> authorService) {
+    public App(Input input, Service<Book> bookService, Service<User> userService, Service<Author> authorService, Service<LibraryCard> libralyCardService) {
          this.input = input;
         this.userService = userService;
         this.authorService = authorService;
         this.bookService = bookService;
+        this.libralyCardService = libralyCardService;
     }
 
     public void run() {
@@ -35,7 +38,8 @@ public class App {
             System.out.println("3. Добавить книгу");
             System.out.println("4. Список книг");
             System.out.println("5. Добавить Автора");
-            System.out.println("6. Список Авторов");
+            System.out.println("6. Выдать книгу");
+
 
             System.out.print("Введите номер задачи: ");
             int task = Integer.parseInt(input.nextLine()); // Используем input
@@ -70,13 +74,29 @@ public class App {
                         }
                         break;
                     case 5:
-                        System.out.println("1. Добавить пользователя");
+                        System.out.println("5. Добавить Автора");
                         if(authorService.add()){
                             System.out.println("Пользователь добавлен");
                         }else{
                             System.out.println("Пользователя добавить не удалось");
                         };
                         break;
+                case 6:
+                    System.out.println("6. Выдать книгу");
+                    if(libralyCardService.add()){
+                        System.out.println("Книга выдана");
+                    }else{
+                        System.out.println("Книгу выдать не удалось");
+                    };
+                    break;
+                case 7:
+                    System.out.println("6. Вернуть книгу");
+                    if(libralyCardService.returnBook()) {
+                        System.out.println("Книга вернута");
+                    }else{
+                        System.out.println("Книгу вернуть не удалось");
+                    };
+                    break;
                 default:
                     System.out.println("Выберите номер из списка задач!");
                     break;
