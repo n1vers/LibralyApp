@@ -1,8 +1,7 @@
 package ee.ivkhkdev.helpers;
 
-import ee.ivkhkdev.input.Input;
-import ee.ivkhkdev.model.User;
-import ee.ivkhkdev.services.Service;
+import ee.ivkhkdev.interfaces.Input;
+import ee.ivkhkdev.model.Author;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,18 +15,20 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-class AppHelperUserTest {
+class AuthorAppHelperTest {
     Input inputMock;
-    AppHelper<User> appHelperUser;
-    PrintStream defaultOut=System.out;
+    PrintStream defaultOut = System.out;
+    AuthorAppHelper authorAppHelper;
     ByteArrayOutputStream outMock;
     @BeforeEach
     void setUp() {
         inputMock = Mockito.mock(Input.class);
-        appHelperUser= new AppHelperUser(inputMock );
+        authorAppHelper = new AuthorAppHelper(inputMock);
         outMock = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outMock));
+
     }
+
 
     @AfterEach
     void tearDown() {
@@ -38,23 +39,22 @@ class AppHelperUserTest {
 
     @Test
     void create() {
-        when(inputMock.nextLine()).thenReturn("Ivan","Ivanov","52534535");
-        User actual = appHelperUser.create();
-        User expected = new User("Ivan","Ivanov","52534535");
-        assertEquals(actual.getFirstName(), expected.getFirstName());
-        assertEquals(actual.getLastName(), expected.getLastName());
-        assertEquals(actual.getPhone(), expected.getPhone());
+        when(inputMock.nextLine()).thenReturn("Lev","Tolstoy");
+        Author actual= authorAppHelper.create();
+        Author expected= new Author("Lev","Tolstoy");
+        assertEquals(actual.getFirstName(),expected.getFirstName());
+        assertEquals(actual.getLastName(),expected.getLastName());
     }
 
     @Test
     void printList() {
-        User user = new User("Ivan","Ivanov","52534535");
-        List<User> users = new ArrayList<>();
-        users.add(user);
-        boolean result = appHelperUser.printList(users);
-        boolean expected = true;
+        Author author = new Author("Lev","Tolstoy");
+        List<Author> authors= new ArrayList<>();
+        authors.add(author);
+        boolean result = authorAppHelper.printList(authors);
+        boolean expected= true;
         assertTrue(result);
-        String expectedString="1. Ivan Ivanov. 52534535";
+        String expectedString = "1. Lev Tolstoy";
         assertTrue(outMock.toString().contains(expectedString));
     }
 }

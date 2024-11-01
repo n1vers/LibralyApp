@@ -1,49 +1,44 @@
 package ee.ivkhkdev.services;
 
 
-import ee.ivkhkdev.helpers.AppHelper;
+import ee.ivkhkdev.interfaces.AppHelper;
+import ee.ivkhkdev.interfaces.Service;
 import ee.ivkhkdev.model.User;
-import ee.ivkhkdev.repositories.Repository;
+import ee.ivkhkdev.interfaces.Repository;
 
 
 import java.util.List;
 
 public class UserService implements Service {
+
     private final Repository<User> repository;
-    private final List<User> users;
     private AppHelper appHelperUser;
 
-    public UserService(List<User>users, AppHelper<User> appHelperUser, Repository<User> repository) {
-        this.users=users;
+    public UserService( AppHelper<User> appHelperUser, Repository<User> repository) {
         this.appHelperUser = appHelperUser;
         this.repository = repository;
     }
 
     public boolean add() {
         User user = (User) appHelperUser.create();
-        if(user == null ) return false;
-        for (int i = 0; i <= users.size(); i++){
-            if(i == 0 ){
-                users.add(user);
-                repository.save(user);
-                break;
-            }else if(users.get(i) == null) {
-                users.add(user);
-                repository.save(user);
-                break;
-            }
-        }
+        try {
+        repository.save(user);
         return true;
+    }catch (Exception e){
+        System.out.println("Error: "+e.toString());
+        return false;
+    }
     }
 
     @Override
     public boolean print() {
-        return appHelperUser.printList(users);
+
+        return appHelperUser.printList(repository.load());
     }
 
     @Override
     public List list() {
-        return users;
+        return repository.load();
     }
 
 

@@ -1,5 +1,7 @@
 package ee.ivkhkdev.repositories;
 
+import ee.ivkhkdev.interfaces.Repository;
+
 import java.io.*;
 import java.util.List;
 

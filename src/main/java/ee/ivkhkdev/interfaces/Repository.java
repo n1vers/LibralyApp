@@ -1,4 +1,4 @@
-package ee.ivkhkdev.repositories;
+package ee.ivkhkdev.interfaces;
 
 import java.util.List;
 

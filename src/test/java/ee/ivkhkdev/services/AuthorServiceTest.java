@@ -1,9 +1,10 @@
 package ee.ivkhkdev.services;
 
-import ee.ivkhkdev.helpers.AppHelper;
-import ee.ivkhkdev.helpers.AppHelperAuthor;
+import ee.ivkhkdev.interfaces.AppHelper;
+import ee.ivkhkdev.helpers.AuthorAppHelper;
+import ee.ivkhkdev.interfaces.Service;
 import ee.ivkhkdev.model.Author;
-import ee.ivkhkdev.repositories.Repository;
+import ee.ivkhkdev.interfaces.Repository;
 import ee.ivkhkdev.repositories.Storage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,10 +27,10 @@ class AuthorServiceTest {
     @BeforeEach
     void setUp() {
         authors = new ArrayList<>();
-        appHelperAuthorMock = Mockito.mock(AppHelperAuthor.class);
-        repositoryMock = Mockito.mock(Storage.class); // мокируем зависимость
-        //создаем тестируемый объект
-        authorService = new AuthorService(authors,appHelperAuthorMock,repositoryMock);
+        appHelperAuthorMock = Mockito.mock(AuthorAppHelper.class);
+        repositoryMock = Mockito.mock(Storage.class);
+
+        authorService = new AuthorService(appHelperAuthorMock,repositoryMock);
     }
     @AfterEach
     void tearDown() {
@@ -39,15 +40,15 @@ class AuthorServiceTest {
     void testAdd_SuccessfulAdd() {
         Author author = new Author("Lev","Tolstoy");
         authors = new ArrayList<>();
-        authors.add(author); // авторы, которые передаем в сервис
+        authors.add(author);
         Author mockAuthor = new Author("Ivan","Turgenev");
-        // appHelperAuthorMock создаст нового автора
+
         when(appHelperAuthorMock.create()).thenReturn(mockAuthor);
-        boolean result = authorService.add();//создаст нового автора и добавит его в authors
+        boolean result = authorService.add();
         assertTrue(result);
-        // проверим, добавился ли в authors новый автор "Ivan"
+
         assertTrue(authors.get(1).getFirstName().equals("Ivan"));
-        // Проверяем, что метод save() вызывался один раз
+
         verify(repositoryMock,times(1)).save(any(Author.class));
 
     }

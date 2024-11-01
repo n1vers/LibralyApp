@@ -1,10 +1,11 @@
 package ee.ivkhkdev.helpers;
 
-import ee.ivkhkdev.input.Input;
+import ee.ivkhkdev.interfaces.AppHelper;
+import ee.ivkhkdev.interfaces.Input;
 import ee.ivkhkdev.model.Author;
 import ee.ivkhkdev.model.Book;
 import ee.ivkhkdev.services.AuthorService;
-import ee.ivkhkdev.services.Service;
+import ee.ivkhkdev.interfaces.Service;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-class AppHelperBookTest {
+class BookAppHelperTest {
     Input inputMock;
     AppHelper<Book> appHelperBook;
     Service<Author> authorServiceMock;
@@ -30,7 +31,7 @@ class AppHelperBookTest {
     void setUp() {
         inputMock = Mockito.mock(Input.class);
         authorServiceMock=Mockito.mock(AuthorService.class);
-        appHelperBook= new AppHelperBook(inputMock, authorServiceMock);
+        appHelperBook= new BookAppHelper(inputMock, authorServiceMock);
         outMock = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outMock));
     }
