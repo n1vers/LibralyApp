@@ -1,30 +1,31 @@
 package ee.ivkhkdev.repositories;
 
+
 import ee.ivkhkdev.interfaces.Repository;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Storage<T> implements Repository<T> {
 
-    private final String fileName;
+    private String fileName;
 
     public Storage(String fileName) {
         this.fileName = fileName;
     }
-
     @Override
     public void save(T entity){
-        List<T> entities=this.load();
+        List<T> entities = this.load();
+        if(entities == null) entities = new ArrayList<>();
         entities.add(entity);
         FileOutputStream fileOutputStream;
         ObjectOutputStream objectOutputStream;
         try {
             fileOutputStream = new FileOutputStream(fileName);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(entity);
+            objectOutputStream.writeObject(entities);
             objectOutputStream.flush();
-
         } catch (FileNotFoundException e) {
             System.out.println("Не найден файл");
         } catch (IOException e) {
@@ -32,6 +33,21 @@ public class Storage<T> implements Repository<T> {
         }
     }
 
+    public void saveAll(List<T> entities){
+        if(entities == null) entities = new ArrayList<>();
+        FileOutputStream fileOutputStream;
+        ObjectOutputStream objectOutputStream;
+        try {
+            fileOutputStream = new FileOutputStream(fileName);
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(entities);
+            objectOutputStream.flush();
+        } catch (FileNotFoundException e) {
+            System.out.println("Не найден файл");
+        } catch (IOException e) {
+            System.out.println("Ошибка ввода");
+        }
+    }
 
 
     @Override
@@ -49,6 +65,6 @@ public class Storage<T> implements Repository<T> {
         } catch (ClassNotFoundException e) {
             System.out.println("Не найден класс ");
         }
-        return null;
+        return new ArrayList<>();
     }
 }

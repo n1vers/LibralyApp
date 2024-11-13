@@ -31,6 +31,11 @@ public class UserService implements Service {
     }
 
     @Override
+    public boolean edit() {
+        return false;
+    }
+
+    @Override
     public boolean print() {
 
         return appHelperUser.printList(repository.load());

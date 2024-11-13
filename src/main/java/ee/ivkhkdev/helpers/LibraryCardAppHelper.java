@@ -11,12 +11,12 @@ import ee.ivkhkdev.model.User;
 import java.time.LocalDate;
 import java.util.List;
 
-public class LibralyCardAppHelper implements AppHelper<LibraryCard> {
+public class LibraryCardAppHelper implements AppHelper<LibraryCard> {
     private final Input input;
     private final Service<Book> bookService;
     private final Service<User> userService;
 
-    public LibralyCardAppHelper(Input input, Service<Book> bookService, Service<User> userService) {
+    public LibraryCardAppHelper(Input input, Service<Book> bookService, Service<User> userService) {
         this.input=input;
         this.bookService = bookService;
         this.userService = userService;
@@ -55,7 +55,7 @@ public class LibralyCardAppHelper implements AppHelper<LibraryCard> {
         System.out.println("Список библиотечных карт:");
         for (int i = 0; i < cards.size(); i++) {
             LibraryCard card = cards.get(i);
-            if (card.getReturnDate() == null) {
+            if (card.getReturnBookDate() == null) {
                 System.out.printf("%d. %s. %d. читает %s %s%n",
                         i + 1,
                         card.getBook().getTitle(),
@@ -67,6 +67,11 @@ public class LibralyCardAppHelper implements AppHelper<LibraryCard> {
         }
 
         return count > 0; // Возвращаем true, если были найдены карты, иначе false
+    }
+
+    @Override
+    public List<LibraryCard> edit(List<LibraryCard> listClazz) {
+        return List.of();
     }
 
     public List<LibraryCard>  returnBack (List<LibraryCard> cards) {

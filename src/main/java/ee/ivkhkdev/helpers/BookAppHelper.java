@@ -71,4 +71,9 @@ public class BookAppHelper implements AppHelper<Book> {
         }
     }
 
+    @Override
+    public List<Book> edit(List<Book> listClazz) {
+        return List.of();
+    }
+
 }

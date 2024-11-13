@@ -1,15 +1,11 @@
 package ee.ivkhkdev.services;
 
-
-import ee.ivkhkdev.helpers.BookAppHelper;
-
-
 import ee.ivkhkdev.interfaces.AppHelper;
-import ee.ivkhkdev.interfaces.Repository;
+import ee.ivkhkdev.helpers.BookAppHelper;
 import ee.ivkhkdev.interfaces.Service;
 import ee.ivkhkdev.model.Author;
 import ee.ivkhkdev.model.Book;
-
+import ee.ivkhkdev.interfaces.Repository;
 import ee.ivkhkdev.repositories.Storage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -89,5 +85,21 @@ class BookServiceTest {
         // Проверка
         assertEquals(mockBookList, result);
         verify(repository, times(1)).load(); // Убедиться, что метод load был вызван один раз
+    }
+    @Test
+    void testEdit_Successfull(){
+        List<Book> books = List.of(new Book(),new Book());
+        when(repository.load()).thenReturn(books);
+        when(appHelperBook.edit(books)).thenReturn(books);
+        boolean result = bookService.edit();
+        assertTrue(result);
+    }
+    @Test
+    void testEdit_NotSuccessfull(){
+        List<Book> books = List.of(new Book(),new Book());
+        when(repository.load()).thenReturn(books);
+        when(appHelperBook.edit(books)).thenReturn(null);
+        boolean result = bookService.edit();
+        assertFalse(result);
     }
 }

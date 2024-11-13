@@ -33,6 +33,11 @@ public class AuthorService implements Service {
     }
 
     @Override
+    public boolean edit() {
+        return false;
+    }
+
+    @Override
     public boolean print() {
         return appHelperAuthor.printList(repository.load());
     }

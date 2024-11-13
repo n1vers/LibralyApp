@@ -7,21 +7,21 @@ import java.util.UUID;
 
 public class LibraryCard implements Serializable {
     private UUID id;
-    private Book book ;
+    private Book book;
     private User user;
-    private LocalDate borrowDate;
-    private LocalDate returnDate;
+    private LocalDate borrowdBookDate;
+    private LocalDate returnBookDate;
 
     public LibraryCard() {
         this.id = UUID.randomUUID();
     }
 
-    public LibraryCard(UUID id, Book book, User user, LocalDate borrowDate, LocalDate returnDate) {
+    public LibraryCard(Book book, User user, LocalDate borrowdBookDate, LocalDate returnBookDate) {
         this.id = UUID.randomUUID();
         this.book = book;
         this.user = user;
-        this.borrowDate = borrowDate;
-        this.returnDate = returnDate;
+        this.borrowdBookDate = borrowdBookDate;
+        this.returnBookDate = returnBookDate;
     }
 
     public UUID getId() {
@@ -48,43 +48,49 @@ public class LibraryCard implements Serializable {
         this.user = user;
     }
 
-    public LocalDate getBorrowDate() {
-        return borrowDate;
+    public LocalDate getBorrowedDate() {
+        return borrowdBookDate;
     }
 
-    public void setBorrowDate(LocalDate borrowDate) {
-        this.borrowDate = borrowDate;
+    public void setBorrowDate(LocalDate borrowdBookDate) {
+        this.borrowdBookDate = borrowdBookDate;
     }
 
-    public LocalDate getReturnDate() {
-        return returnDate;
+    public LocalDate getReturnBookDate() {
+        return returnBookDate;
     }
 
-    public void setReturnDate(LocalDate returnDate) {
-        this.returnDate = returnDate;
+    public void setReturnDate(LocalDate returnBookDate) {
+        this.returnBookDate = returnBookDate;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         LibraryCard that = (LibraryCard) o;
-        return Objects.equals(id, that.id) && Objects.equals(book, that.book) && Objects.equals(user, that.user) && Objects.equals(borrowDate, that.borrowDate) && Objects.equals(returnDate, that.returnDate);
+        return Objects.equals(id, that.id) && Objects.equals(book, that.book) && Objects.equals(user, that.user) && Objects.equals(borrowdBookDate, that.borrowdBookDate) && Objects.equals(returnBookDate, that.returnBookDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, book, user, borrowDate, returnDate);
+        int result = Objects.hashCode(id);
+        result = 31 * result + Objects.hashCode(book);
+        result = 31 * result + Objects.hashCode(user);
+        result = 31 * result + Objects.hashCode(borrowdBookDate);
+        result = 31 * result + Objects.hashCode(returnBookDate);
+        return result;
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("LiblaryCard{");
+        final StringBuilder sb = new StringBuilder("LibraryCard{");
         sb.append("id=").append(id);
         sb.append(", book=").append(book);
         sb.append(", user=").append(user);
-        sb.append(", borrowDate=").append(borrowDate);
-        sb.append(", returnDate=").append(returnDate);
+        sb.append(", borrowdBookDate=").append(borrowdBookDate);
+        sb.append(", returnBookDate=").append(returnBookDate);
         sb.append('}');
         return sb.toString();
     }

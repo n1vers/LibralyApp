@@ -1,8 +1,8 @@
 package ee.ivkhkdev.services;
 
 import ee.ivkhkdev.interfaces.AppHelper;
-import ee.ivkhkdev.interfaces.Repository;
 import ee.ivkhkdev.model.Author;
+import ee.ivkhkdev.interfaces.Repository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

@@ -31,6 +31,12 @@ public class BookService implements Service {
             return false;
         }
     }
+
+    @Override
+    public boolean edit() {
+        return false;
+    }
+
     @Override
     public boolean print() {
 

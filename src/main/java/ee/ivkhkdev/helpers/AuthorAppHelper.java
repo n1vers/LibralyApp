@@ -45,4 +45,9 @@ public class AuthorAppHelper implements AppHelper<Author> {
             return false;
         }
     }
+
+    @Override
+    public List<Author> edit(List<Author> listClazz) {
+        return List.of();
+    }
 }

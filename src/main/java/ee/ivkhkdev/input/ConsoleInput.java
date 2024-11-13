@@ -13,7 +13,6 @@ public class ConsoleInput implements Input {
 
     @Override
     public String nextLine(){
-
         return scanner.nextLine();
-    };
+    }
 }
