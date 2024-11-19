@@ -1,30 +1,37 @@
 package ee.ivkhkdev;
 
-import ee.ivkhkdev.interfaces.AppHelper;
 import ee.ivkhkdev.interfaces.Input;
 import ee.ivkhkdev.model.Author;
 import ee.ivkhkdev.model.Book;
 import ee.ivkhkdev.model.LibraryCard;
 import ee.ivkhkdev.model.User;
-import ee.ivkhkdev.interfaces.Service;
+import ee.ivkhkdev.interfaces.AppService;
 import ee.ivkhkdev.services.LibraryCardService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public class App {
-    private final Service<LibraryCard> libraryCardService;
+@SpringBootApplication
+public class App implements CommandLineRunner {
+    private final AppService<LibraryCard> libraryCardService;
     private Input input;
-    private Service<User> userService;
-    private Service<Book> bookService;
-    private Service<Author> authorService;
-
-    public App(Input input, Service<Book> bookService, Service<User> userService, Service<Author> authorService, Service<LibraryCard> libraryCardService) {
-        this.input = input;
-        this.bookService = bookService;
-        this.userService = userService;
-        this.authorService = authorService;
-        this.libraryCardService = libraryCardService;
+    private AppService<User> userService;
+    private AppService<Book> bookService;
+    private AppService<Author> authorService;
+    @Autowired
+//    public App(Input input, AppService<Book> bookService, AppService<User> userService, AppService<Author> authorService, AppService<LibraryCard> libraryCardService) {
+//        this.input = input;
+//        this.bookService = bookService;
+//        this.userService = userService;
+//        this.authorService = authorService;
+//        this.libraryCardService = libraryCardService;
+//    }
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
     }
-
-    public void run() {
+    @Override
+    public void run(String... args) throws Exception  {
         boolean repeat = true;
         System.out.println("======= JPTV23Library =========");
         do {
@@ -120,4 +127,5 @@ public class App {
         } while (repeat);
         System.out.println("До свидания! :)");
     }
+
 }

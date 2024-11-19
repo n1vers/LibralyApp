@@ -4,7 +4,7 @@ import ee.ivkhkdev.interfaces.AppHelper;
 import ee.ivkhkdev.interfaces.Input;
 import ee.ivkhkdev.model.Author;
 import ee.ivkhkdev.model.Book;
-import ee.ivkhkdev.interfaces.Service;
+import ee.ivkhkdev.interfaces.AppService;
 import ee.ivkhkdev.services.AuthorService;
 
 import java.util.ArrayList;
@@ -13,9 +13,9 @@ import java.util.List;
 public class BookAppHelper implements AppHelper<Book> {
 
     private final Input input;
-    private final Service<Author> authorService;
+    private final AppService<Author> authorService;
 
-    public BookAppHelper(Input input, Service<Author> authorService) {
+    public BookAppHelper(Input input, AppService<Author> authorService) {
         this.input = input;
         this.authorService = authorService;
     }

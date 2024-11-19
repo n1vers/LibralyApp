@@ -2,7 +2,7 @@ package ee.ivkhkdev.helpers;
 
 import ee.ivkhkdev.interfaces.AppHelper;
 import ee.ivkhkdev.interfaces.Input;
-import ee.ivkhkdev.interfaces.Service;
+import ee.ivkhkdev.interfaces.AppService;
 import ee.ivkhkdev.model.Book;
 import ee.ivkhkdev.model.LibraryCard;
 import ee.ivkhkdev.model.User;
@@ -13,10 +13,10 @@ import java.util.List;
 
 public class LibraryCardAppHelper implements AppHelper<LibraryCard> {
     private final Input input;
-    private final Service<Book> bookService;
-    private final Service<User> userService;
+    private final AppService<Book> bookService;
+    private final AppService<User> userService;
 
-    public LibraryCardAppHelper(Input input, Service<Book> bookService, Service<User> userService) {
+    public LibraryCardAppHelper(Input input, AppService<Book> bookService, AppService<User> userService) {
         this.input=input;
         this.bookService = bookService;
         this.userService = userService;

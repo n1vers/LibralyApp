@@ -2,17 +2,17 @@ package ee.ivkhkdev.services;
 
 import ee.ivkhkdev.helpers.LibraryCardAppHelper;
 import ee.ivkhkdev.interfaces.AppHelper;
-import ee.ivkhkdev.interfaces.Repository;
-import ee.ivkhkdev.interfaces.Service;
+import ee.ivkhkdev.interfaces.AppRepository;
+import ee.ivkhkdev.interfaces.AppService;
 import ee.ivkhkdev.model.LibraryCard;
 
 import java.util.List;
 
-public class LibraryCardService implements Service<LibraryCard> {
+public class LibraryCardService implements AppService<LibraryCard> {
     private final AppHelper<LibraryCard> libraryCardAppHelper;
-    private final Repository<LibraryCard> repository;
+    private final AppRepository<LibraryCard> repository;
 
-    public LibraryCardService(AppHelper<LibraryCard> libraryCardAppHelper, Repository<LibraryCard> repository) {
+    public LibraryCardService(AppHelper<LibraryCard> libraryCardAppHelper, AppRepository<LibraryCard> repository) {
         this.libraryCardAppHelper=libraryCardAppHelper;
         this.repository = repository;
     }

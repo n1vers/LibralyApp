@@ -1,18 +1,19 @@
 package ee.ivkhkdev.services;
 
 import ee.ivkhkdev.interfaces.AppHelper;
-import ee.ivkhkdev.interfaces.Service;
+import ee.ivkhkdev.interfaces.AppService;
 import ee.ivkhkdev.model.Author;
-import ee.ivkhkdev.interfaces.Repository;
+import ee.ivkhkdev.interfaces.AppRepository;
+import org.springframework.context.annotation.Bean;
 
 import java.util.List;
+@Bean
+public class AuthorService implements AppService {
 
-public class AuthorService implements Service {
-
-    private Repository<Author> repository;
+    private AppRepository<Author> repository;
     private AppHelper<Author> appHelperAuthor;
 
-    public AuthorService(AppHelper<Author> appHelperAuthor, Repository<Author> repository) {
+    public AuthorService(AppHelper<Author> appHelperAuthor, AppRepository<Author> repository) {
         this.appHelperAuthor = appHelperAuthor;
         this.repository = repository;
     }

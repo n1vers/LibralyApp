@@ -2,10 +2,10 @@ package ee.ivkhkdev.services;
 
 import ee.ivkhkdev.interfaces.AppHelper;
 import ee.ivkhkdev.helpers.BookAppHelper;
-import ee.ivkhkdev.interfaces.Service;
+import ee.ivkhkdev.interfaces.AppService;
 import ee.ivkhkdev.model.Author;
 import ee.ivkhkdev.model.Book;
-import ee.ivkhkdev.interfaces.Repository;
+import ee.ivkhkdev.interfaces.AppRepository;
 import ee.ivkhkdev.repositories.Storage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,8 +21,8 @@ import static org.mockito.Mockito.*;
 class BookServiceTest {
 
     AppHelper<Book> appHelperBook;
-    Repository<Book> repository;
-    Service<Book> bookService;
+    AppRepository<Book> repository;
+    AppService<Book> bookService;
     @BeforeEach
     void setUp() {
         appHelperBook = Mockito.mock(BookAppHelper.class);

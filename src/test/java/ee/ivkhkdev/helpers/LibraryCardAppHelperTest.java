@@ -1,7 +1,7 @@
 package ee.ivkhkdev.helpers;
 
 import ee.ivkhkdev.interfaces.Input;
-import ee.ivkhkdev.interfaces.Service;
+import ee.ivkhkdev.interfaces.AppService;
 import ee.ivkhkdev.model.Author;
 import ee.ivkhkdev.model.Book;
 import ee.ivkhkdev.model.LibraryCard;
@@ -22,8 +22,8 @@ public class LibraryCardAppHelperTest {
 
     private LibraryCardAppHelper libraryCardAppHelper;
     private Input mockInput;
-    private Service<Book> mockBookService;
-    private Service<User> mockUserService;
+    private AppService<Book> mockBookService;
+    private AppService<User> mockUserService;
 
     @BeforeEach
     void setUp() {

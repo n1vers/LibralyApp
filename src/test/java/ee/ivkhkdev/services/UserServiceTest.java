@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ee.ivkhkdev.interfaces.AppHelper;
 import ee.ivkhkdev.model.User;
-import ee.ivkhkdev.interfaces.Repository;
+import ee.ivkhkdev.interfaces.AppRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -15,13 +15,13 @@ import java.util.List;
 public class UserServiceTest {
 
     private UserService userService;
-    private Repository<User> mockRepository;
+    private AppRepository<User> mockRepository;
     private AppHelper<User> mockAppHelperUser;
 
     @BeforeEach
     void setUp() {
         // Создаем моки для зависимостей
-        mockRepository = Mockito.mock(Repository.class);
+        mockRepository = Mockito.mock(AppRepository.class);
         mockAppHelperUser = Mockito.mock(AppHelper.class);
 
         // Инициализируем UserService с моками

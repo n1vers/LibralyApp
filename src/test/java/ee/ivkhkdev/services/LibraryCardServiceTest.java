@@ -2,7 +2,7 @@ package ee.ivkhkdev.services;
 
 import ee.ivkhkdev.helpers.LibraryCardAppHelper;
 import ee.ivkhkdev.interfaces.AppHelper;
-import ee.ivkhkdev.interfaces.Repository;
+import ee.ivkhkdev.interfaces.AppRepository;
 import ee.ivkhkdev.model.LibraryCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,13 +17,13 @@ public class LibraryCardServiceTest {
 
     private LibraryCardService libraryCardService;
     private AppHelper<LibraryCard> mockLibraryCardAppHelper;
-    private Repository<LibraryCard> mockRepository;
+    private AppRepository<LibraryCard> mockRepository;
 
     @BeforeEach
     void setUp() {
         // Создаем моки для зависимостей
         mockLibraryCardAppHelper = Mockito.mock(AppHelper.class);
-        mockRepository = Mockito.mock(Repository.class);
+        mockRepository = Mockito.mock(AppRepository.class);
 
         // Инициализируем LibraryCardService с моками
         libraryCardService = new LibraryCardService(mockLibraryCardAppHelper, mockRepository);

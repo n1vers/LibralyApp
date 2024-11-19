@@ -2,7 +2,7 @@ package ee.ivkhkdev.services;
 
 import ee.ivkhkdev.interfaces.AppHelper;
 import ee.ivkhkdev.model.Author;
-import ee.ivkhkdev.interfaces.Repository;
+import ee.ivkhkdev.interfaces.AppRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -17,13 +17,13 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 public class AuthorServiceTest {
 
     private AuthorService authorService;
-    private Repository<Author> mockRepository;
+    private AppRepository<Author> mockRepository;
     private AppHelper<Author> mockAppHelperAuthor;
 
     @BeforeEach
     void setUp() {
         // Создаем моки для зависимостей
-        mockRepository = Mockito.mock(Repository.class);
+        mockRepository = Mockito.mock(AppRepository.class);
         mockAppHelperAuthor = Mockito.mock(AppHelper.class);
 
         // Инициализируем AuthorService с моками
