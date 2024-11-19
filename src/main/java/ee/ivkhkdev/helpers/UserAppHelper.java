@@ -9,10 +9,8 @@ import java.util.List;
 public class UserAppHelper implements AppHelper<User> {
     private final Input input;
 
-
     public UserAppHelper(Input input) {
         this.input = input;
-
     }
 
     @Override
@@ -34,7 +32,7 @@ public class UserAppHelper implements AppHelper<User> {
     @Override
     public boolean printList(List<User>users) {
         try {
-            if(users.isEmpty()) return false;
+            if(users.size() == 0) return false;
             for(int i = 0; i < users.size(); i++){
                 System.out.printf("%d. %s %s. %s%n",
                         i+1,
@@ -51,7 +49,38 @@ public class UserAppHelper implements AppHelper<User> {
     }
 
     @Override
-    public List<User> edit(List<User> listClazz) {
-        return List.of();
+    public List<User> edit(List<User> users) {
+        try {
+            System.out.println("---- Редактирование книги -----");
+            this.printList(users);
+            System.out.print("Выберите пользователя: ");
+            int numberUser = Integer.parseInt(input.nextLine());
+            System.out.println("Имя: " + users.get(numberUser-1).getFirstName());
+            System.out.print("Изменить (y/n): ");
+            String choice = input.nextLine();
+            if(choice.equals("y")){
+                System.out.print("Новое имя: ");
+                users.get(numberUser-1).setFirstName(input.nextLine());
+            }
+            System.out.println("Фамилия: " + users.get(numberUser-1).getLastName());
+            System.out.print("Изменить (y/n): ");
+            choice = input.nextLine();
+            if(choice.equals("y")){
+                System.out.print("Новая фамилия: ");
+                users.get(numberUser-1).setLastName(input.nextLine());
+            }
+            System.out.println("Телефон: " + users.get(numberUser-1).getLastName());
+            System.out.print("Изменить (y/n): ");
+            choice = input.nextLine();
+            if(choice.equals("y")){
+                System.out.print("Новый телефон: ");
+                users.get(numberUser-1).setPhone(input.nextLine());
+            }
+            return users;
+        }catch (Exception e){
+            System.out.println("Error: "+e.getMessage());
+            return null;
+        }
+
     }
 }

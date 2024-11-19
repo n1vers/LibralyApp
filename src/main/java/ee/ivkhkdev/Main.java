@@ -1,6 +1,8 @@
 package ee.ivkhkdev;
 
 
+import ee.ivkhkdev.factory.Factory;
+import ee.ivkhkdev.factory.JavaConfiguration;
 import ee.ivkhkdev.helpers.LibraryCardAppHelper;
 import ee.ivkhkdev.interfaces.AppHelper;
 import ee.ivkhkdev.helpers.AuthorAppHelper;
@@ -24,21 +26,23 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Repository<Author> authorRepository = new Storage<>("authors");
-        Repository<User> userRepository = new Storage<>("users");
-        Repository<Book> bookRepository = new Storage<>("books");
-        Input input = new ConsoleInput(new Scanner(System.in));
-        AppHelper<Author> authorAppHelper = new AuthorAppHelper(input);
-        AppHelper<User> userAppHelper = new UserAppHelper(input);
-        Service<Author> authorService = new AuthorService(authorAppHelper,authorRepository);;
-        AppHelper<Book> bookAppHelper = new BookAppHelper(input,authorService);
-        Service<User> userService = new UserService(userAppHelper,userRepository);
-        Service<Book> bookService = new BookService(bookAppHelper,bookRepository);
-        AppHelper<LibraryCard> libraryCardAppHelper = new LibraryCardAppHelper(input,bookService,userService);
-        Repository<LibraryCard> libraryCardRepository = new Storage<>("libraryCards");
-        Service<LibraryCard> libraryCardService = new LibraryCardService(libraryCardAppHelper, libraryCardRepository);
+        Factory factory = Factory.getInstance(new JavaConfiguration());
+        Object emptyObject  = factory.getobject("empty");
+        Repository<Author> authorRepository = (Storage)factory.getobject("authorRepository");
+        Repository<User> userRepository = (Storage)factory.getobject("userRepository");
+        Repository<Book> bookRepository = (Storage)factory.getobject("bookRepository");
+        Input input = (Input)factory.getobject("input");
+        AppHelper<Author> authorAppHelper =  (AppHelper)factory.getobject("authorAppHelper");
+        AppHelper<User> userAppHelper = (AppHelper)factory.getobject("userAppHelper");
+        Service<Author> authorService = (Service)factory.getobject("authorService");
+        AppHelper<Book> bookAppHelper = (AppHelper)factory.getobject("bookAppHelper");
+        Service<User> userService = (Service)factory.getobject("userService");
+        Service<Book> bookService = (Service)factory.getobject("bookService");
+        AppHelper<LibraryCard> libraryCardAppHelper = (AppHelper)factory.getobject("libraryCardAppHelper");
+        Repository<LibraryCard> libraryCardRepository = (Storage)factory.getobject("libraryCardRepository");
+        Service<LibraryCard> libraryCardService = (Service)factory.getobject("libraryCardService");
 
-        App app = new App(input, bookService,userService,authorService,libraryCardService);
+        App app = (App) factory.getobject("app");
         app.run();
     }
 }

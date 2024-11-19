@@ -105,7 +105,7 @@ class BookAppHelperTest {
                 "y",//изменить год издания: y
                 "2001"//
         );
-       // when(authorService.getAppHelperAuthor().printList(authors)).thenReturn(true);
+        when(authorService.getAppHelperAuthor().printList(authors)).thenReturn(true);
         when(authorAppHelper.printList(authors)).thenReturn(true);
         when(authorService.list()).thenReturn(authors);
         List<Book> result = bookAppHelper.edit(books);

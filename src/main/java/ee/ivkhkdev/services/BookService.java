@@ -11,36 +11,37 @@ import java.util.List;
 public class BookService implements Service {
 
     private Repository<Book> repository;
-    private AppHelper appHelperBook;
+    private AppHelper<Book> bookAppHelper;
 
-    public BookService(AppHelper<Book> appHelperBook, Repository<Book> repository) {
-        this.appHelperBook = appHelperBook;
+    public BookService(AppHelper<Book> bookAppHelper, Repository<Book> repository) {
+        this.bookAppHelper = bookAppHelper;
         this.repository = repository;
     }
-
-    public boolean add() {
-        Book book = (Book) appHelperBook.create();
-        if (book == null) {
-            return false;
-        }
+    public boolean add(){
         try {
+            Book book = bookAppHelper.create();
+            if(book == null) return false;
             repository.save(book);
             return true;
-        } catch (Exception e) {
-            System.out.println("Error: " + e.toString());
+        }catch (Exception e){
+            System.out.println("Error: "+e.toString());
             return false;
         }
     }
 
     @Override
     public boolean edit() {
-        return false;
+        List<Book> modifiedBooks = bookAppHelper.edit(repository.load());
+        if(modifiedBooks == null){
+            return false;
+        }
+        repository.saveAll(modifiedBooks);
+        return true;
     }
 
     @Override
     public boolean print() {
-
-        return appHelperBook.printList(repository.load());
+        return bookAppHelper.printList(repository.load());
     }
 
     @Override
