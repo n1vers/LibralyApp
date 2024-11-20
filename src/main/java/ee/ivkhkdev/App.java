@@ -14,19 +14,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class App implements CommandLineRunner {
-    private final AppService<LibraryCard> libraryCardService;
+
+    private  AppService<LibraryCard> libraryCardService;
     private Input input;
     private AppService<User> userService;
     private AppService<Book> bookService;
     private AppService<Author> authorService;
+
     @Autowired
-//    public App(Input input, AppService<Book> bookService, AppService<User> userService, AppService<Author> authorService, AppService<LibraryCard> libraryCardService) {
-//        this.input = input;
-//        this.bookService = bookService;
-//        this.userService = userService;
-//        this.authorService = authorService;
-//        this.libraryCardService = libraryCardService;
-//    }
+    public App(Input input, AppService<Book> bookService, AppService<User> userService, AppService<Author> authorService, AppService<LibraryCard> libraryCardService) {
+        this.input = input;
+        this.bookService = bookService;
+        this.userService = userService;
+        this.authorService = authorService;
+        this.libraryCardService = libraryCardService;
+    }
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }

@@ -7,7 +7,7 @@ import ee.ivkhkdev.interfaces.AppRepository;
 import org.springframework.context.annotation.Bean;
 
 import java.util.List;
-@Bean
+
 public class AuthorService implements AppService {
 
     private AppRepository<Author> repository;
